@@ -358,7 +358,9 @@ em { font-style: italic; color: var(--terracotta); }
 .hero__ribbon-track {
   display: flex;
   width: max-content;
-  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-animation: ribbon-scroll 35s linear infinite;
   animation: ribbon-scroll 35s linear infinite;
 }
 .hero__ribbon-track:hover { animation-play-state: paused; }
@@ -377,9 +379,13 @@ em { font-style: italic; color: var(--terracotta); }
   padding: 0 2px !important;
   letter-spacing: 0 !important;
 }
+@-webkit-keyframes ribbon-scroll {
+  from { -webkit-transform: translateX(0); transform: translateX(0); }
+  to   { -webkit-transform: translateX(-25%); transform: translateX(-25%); }
+}
 @keyframes ribbon-scroll {
-  0%   { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-25%, 0, 0); }
+  from { transform: translateX(0); }
+  to   { transform: translateX(-25%); }
 }
 
 /* =========================================================
