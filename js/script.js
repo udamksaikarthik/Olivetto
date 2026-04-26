@@ -221,6 +221,21 @@
     }, { passive: true });
   }
 
+  /* -------- Ribbon marquee — pixel-accurate, starts after fonts load -------- */
+  const ribbonTrack = document.querySelector('.hero__ribbon-track');
+  if (ribbonTrack) {
+    const startRibbon = () => {
+      const shift = Math.round(ribbonTrack.scrollWidth / 4);
+      ribbonTrack.style.setProperty('--ribbon-shift', `-${shift}px`);
+      ribbonTrack.style.animationPlayState = 'running';
+    };
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(startRibbon);
+    } else {
+      window.addEventListener('load', startRibbon);
+    }
+  }
+
   /* -------- Smooth in-page scroll with nav offset compensation -------- */
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', (e) => {

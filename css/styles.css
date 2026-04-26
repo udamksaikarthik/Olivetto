@@ -352,18 +352,20 @@ em { font-style: italic; color: var(--terracotta); }
   z-index: 3;
   background: var(--ink);
   overflow: hidden;
-  padding: 11px 0;
+  display: flex;
+  align-items: center;
+  min-height: 40px;
   border-bottom: 1px solid rgba(193, 87, 58, 0.35);
 }
 .hero__ribbon-track {
   display: flex;
-  width: max-content;
+  flex-shrink: 0;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  animation-play-state: paused;
   -webkit-animation: ribbon-scroll 35s linear infinite;
   animation: ribbon-scroll 35s linear infinite;
 }
-.hero__ribbon-track:hover { animation-play-state: paused; }
 .hero__ribbon-track span {
   padding: 0 18px;
   font-family: var(--sans);
@@ -373,6 +375,7 @@ em { font-style: italic; color: var(--terracotta); }
   letter-spacing: .18em;
   color: var(--cream);
   white-space: nowrap;
+  line-height: 1;
 }
 .hero__ribbon-sep {
   color: var(--terracotta) !important;
@@ -381,11 +384,11 @@ em { font-style: italic; color: var(--terracotta); }
 }
 @-webkit-keyframes ribbon-scroll {
   from { -webkit-transform: translateX(0); transform: translateX(0); }
-  to   { -webkit-transform: translateX(-25%); transform: translateX(-25%); }
+  to   { -webkit-transform: translateX(var(--ribbon-shift, -25%)); transform: translateX(var(--ribbon-shift, -25%)); }
 }
 @keyframes ribbon-scroll {
   from { transform: translateX(0); }
-  to   { transform: translateX(-25%); }
+  to   { transform: translateX(var(--ribbon-shift, -25%)); }
 }
 
 /* =========================================================
