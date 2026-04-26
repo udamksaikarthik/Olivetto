@@ -358,7 +358,8 @@ em { font-style: italic; color: var(--terracotta); }
 .hero__ribbon-track {
   display: flex;
   width: max-content;
-  animation: ribbon-scroll 30s linear infinite;
+  will-change: transform;
+  animation: ribbon-scroll 35s linear infinite;
 }
 .hero__ribbon-track:hover { animation-play-state: paused; }
 .hero__ribbon-track span {
@@ -377,8 +378,8 @@ em { font-style: italic; color: var(--terracotta); }
   letter-spacing: 0 !important;
 }
 @keyframes ribbon-scroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-25%, 0, 0); }
 }
 
 /* =========================================================
