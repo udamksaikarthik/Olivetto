@@ -102,71 +102,123 @@
     let current = 0;
     let auto;
 
-    // Build dots
     reviews.forEach((_, i) => {
       const b = document.createElement('button');
       b.setAttribute('aria-label', `Go to review ${i + 1}`);
-      b.addEventListener('click', () => goTo(i));
+      b.addEventListener('click', () => { goTo(i); resetAuto(); });
       dotsWrap.appendChild(b);
     });
     const dots = Array.from(dotsWrap.children);
 
-    const visibleCount = () => {
-      const w = window.innerWidth;
-      if (w < 700) return 1;
-      if (w < 1000) return 2;
-      return 3;
-    };
-
     const goTo = (index) => {
-      const max = Math.max(0, reviews.length - visibleCount());
-      current = Math.max(0, Math.min(index, max));
-      const target = reviews[current];
-      if (!target) return;
-      track.scrollTo({ left: target.offsetLeft - track.offsetLeft, behavior: 'smooth' });
-      updateDots();
-    };
-
-    const updateDots = () => {
+      current = (index + reviews.length) % reviews.length;
+      track.style.transform = `translateX(${-current * 100}%)`;
       dots.forEach((d, i) => d.classList.toggle('active', i === current));
     };
 
-    nextBtn.addEventListener('click', () => goTo(current + 1));
-    prevBtn.addEventListener('click', () => goTo(current - 1));
+    nextBtn.addEventListener('click', () => { goTo(current + 1); resetAuto(); });
+    prevBtn.addEventListener('click', () => { goTo(current - 1); resetAuto(); });
 
-    // Sync on manual scroll
-    let scrollTimer;
-    track.addEventListener('scroll', () => {
-      clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(() => {
-        const closest = reviews.reduce((acc, r, i) => {
-          const dist = Math.abs(r.offsetLeft - track.offsetLeft - track.scrollLeft);
-          return dist < acc.dist ? { i, dist } : acc;
-        }, { i: 0, dist: Infinity });
-        current = closest.i;
-        updateDots();
-      }, 120);
+    const startAuto = () => { auto = setInterval(() => goTo(current + 1), 5500); };
+    const resetAuto = () => { clearInterval(auto); startAuto(); };
+    const stopAuto  = () => { clearInterval(auto); };
+
+    const reviewsSection = track.closest('.reviews');
+    if (reviewsSection) {
+      reviewsSection.addEventListener('mouseenter', stopAuto);
+      reviewsSection.addEventListener('mouseleave', startAuto);
+    }
+
+    let revTouchX = null;
+    track.addEventListener('touchstart', e => { revTouchX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', e => {
+      if (revTouchX === null) return;
+      const dx = e.changedTouches[0].clientX - revTouchX;
+      if (Math.abs(dx) > 40) { dx < 0 ? goTo(current + 1) : goTo(current - 1); resetAuto(); }
+      revTouchX = null;
     }, { passive: true });
 
-    // Auto-advance (pause on hover/focus)
-    const startAuto = () => {
-      stopAuto();
-      auto = setInterval(() => {
-        const max = Math.max(0, reviews.length - visibleCount());
-        const next = current >= max ? 0 : current + 1;
-        goTo(next);
-      }, 5500);
-    };
-    const stopAuto = () => { if (auto) clearInterval(auto); };
-
-    track.addEventListener('mouseenter', stopAuto);
-    track.addEventListener('mouseleave', startAuto);
-    track.addEventListener('focusin', stopAuto);
-    track.addEventListener('focusout', startAuto);
-
-    window.addEventListener('resize', () => goTo(current));
-    updateDots();
+    goTo(0);
     startAuto();
+  }
+
+  /* -------- Hero image slider -------- */
+  const heroSlides = Array.from(document.querySelectorAll('.hero__slide'));
+  const heroDotWrap = document.getElementById('heroIndicators');
+
+  if (heroSlides.length > 1 && heroDotWrap) {
+    let hIdx = 0;
+    let hTimer;
+    const hDots = [];
+
+    heroSlides.forEach((_, i) => {
+      const b = document.createElement('button');
+      b.setAttribute('aria-label', `Slide ${i + 1}`);
+      b.classList.toggle('active', i === 0);
+      b.addEventListener('click', () => { goHero(i); resetHeroTimer(); });
+      heroDotWrap.appendChild(b);
+      hDots.push(b);
+    });
+
+    const goHero = (i) => {
+      heroSlides[hIdx].classList.remove('is-active');
+      hIdx = (i + heroSlides.length) % heroSlides.length;
+      heroSlides[hIdx].classList.add('is-active');
+      hDots.forEach((d, j) => d.classList.toggle('active', j === hIdx));
+    };
+
+    const startHeroTimer = () => { hTimer = setInterval(() => goHero(hIdx + 1), 5500); };
+    const resetHeroTimer = () => { clearInterval(hTimer); startHeroTimer(); };
+
+    const heroSection = document.querySelector('.hero');
+    if (heroSection) {
+      heroSection.addEventListener('mouseenter', () => clearInterval(hTimer));
+      heroSection.addEventListener('mouseleave', startHeroTimer);
+    }
+
+    startHeroTimer();
+  }
+
+  /* -------- Gallery slider -------- */
+  const galTrack  = document.getElementById('galleryTrack');
+  const galPrev   = document.getElementById('galPrev');
+  const galNext   = document.getElementById('galNext');
+  const galDotsEl = document.getElementById('galDots');
+
+  if (galTrack && galPrev && galNext) {
+    const galSlides = Array.from(galTrack.children);
+    let galIdx = 0;
+    const galDots = [];
+
+    if (galDotsEl) {
+      galSlides.forEach((_, i) => {
+        const b = document.createElement('button');
+        b.setAttribute('aria-label', `Image ${i + 1}`);
+        b.classList.toggle('active', i === 0);
+        b.addEventListener('click', () => goGal(i));
+        galDotsEl.appendChild(b);
+        galDots.push(b);
+      });
+    }
+
+    const goGal = (i) => {
+      galIdx = (i + galSlides.length) % galSlides.length;
+      galTrack.style.transform = `translateX(${-galIdx * 100}%)`;
+      galDots.forEach((d, j) => d.classList.toggle('active', j === galIdx));
+    };
+
+    galPrev.addEventListener('click', () => goGal(galIdx - 1));
+    galNext.addEventListener('click', () => goGal(galIdx + 1));
+
+    const galVP = galTrack.parentElement;
+    let galTouchX = null;
+    galVP.addEventListener('touchstart', e => { galTouchX = e.touches[0].clientX; }, { passive: true });
+    galVP.addEventListener('touchend', e => {
+      if (galTouchX === null) return;
+      const dx = e.changedTouches[0].clientX - galTouchX;
+      if (Math.abs(dx) > 40) { dx < 0 ? goGal(galIdx + 1) : goGal(galIdx - 1); }
+      galTouchX = null;
+    }, { passive: true });
   }
 
   /* -------- Smooth in-page scroll with nav offset compensation -------- */
