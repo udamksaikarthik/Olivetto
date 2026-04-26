@@ -221,6 +221,50 @@
     }, { passive: true });
   }
 
+  /* -------- Menu pages slider -------- */
+  const mpTrack  = document.getElementById('menuPagesTrack');
+  const mpPrev   = document.getElementById('mpPrev');
+  const mpNext   = document.getElementById('mpNext');
+  const mpDotsEl = document.getElementById('mpDots');
+  const mpCount  = document.getElementById('mpCounter');
+
+  if (mpTrack && mpPrev && mpNext) {
+    const mpSlides = Array.from(mpTrack.children);
+    let mpIdx = 0;
+    const mpDots = [];
+
+    if (mpDotsEl) {
+      mpSlides.forEach((_, i) => {
+        const b = document.createElement('button');
+        b.setAttribute('aria-label', `Menu page ${i + 1}`);
+        b.classList.toggle('active', i === 0);
+        b.addEventListener('click', () => goMp(i));
+        mpDotsEl.appendChild(b);
+        mpDots.push(b);
+      });
+    }
+
+    const goMp = (i) => {
+      mpIdx = (i + mpSlides.length) % mpSlides.length;
+      mpTrack.style.transform = `translateX(${-mpIdx * 100}%)`;
+      mpDots.forEach((d, j) => d.classList.toggle('active', j === mpIdx));
+      if (mpCount) mpCount.textContent = `${mpIdx + 1} / ${mpSlides.length}`;
+    };
+
+    mpPrev.addEventListener('click', () => goMp(mpIdx - 1));
+    mpNext.addEventListener('click', () => goMp(mpIdx + 1));
+
+    const mpVP = mpTrack.closest('.menu-pages__viewport');
+    let mpTouchX = null;
+    mpVP.addEventListener('touchstart', e => { mpTouchX = e.touches[0].clientX; }, { passive: true });
+    mpVP.addEventListener('touchend', e => {
+      if (mpTouchX === null) return;
+      const dx = e.changedTouches[0].clientX - mpTouchX;
+      if (Math.abs(dx) > 40) dx < 0 ? goMp(mpIdx + 1) : goMp(mpIdx - 1);
+      mpTouchX = null;
+    }, { passive: true });
+  }
+
   /* -------- Ribbon marquee — pixel-accurate, starts after fonts load -------- */
   const ribbonTrack = document.querySelector('.hero__ribbon-track');
   if (ribbonTrack) {

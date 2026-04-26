@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/styles.css?v=5" />
+  <link rel="stylesheet" href="css/styles.css?v=6" />
 </head>
 <body>
 
@@ -128,6 +128,79 @@
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- ============ MENU PAGES SLIDER ============ -->
+  <section class="menu-pages" id="our-menu">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow reveal">Our Full Menu</p>
+        <h2 class="reveal" style="--d:.1s">Everything we serve.</h2>
+        <p class="section-head__lede reveal" style="--d:.2s">
+          Swipe through our full menu — from morning breakfasts to evening specials,
+          there is something for everyone.
+        </p>
+      </div>
+    </div>
+
+    <div class="menu-pages__stage reveal" style="--d:.3s">
+      <div class="menu-pages__viewport">
+        <div class="menu-pages__track" id="menuPagesTrack">
+
+          <figure class="menu-pages__slide">
+            <img src="Images/Menu/Starters.jpg" alt="Starters menu page" loading="lazy" />
+            <figcaption>Starters</figcaption>
+          </figure>
+
+          <figure class="menu-pages__slide">
+            <img src="Images/Menu/LA%20Pizza%20menu.jpg" alt="Wood-fired pizza menu page" loading="lazy" />
+            <figcaption>Wood-fired Pizzas</figcaption>
+          </figure>
+
+          <figure class="menu-pages__slide">
+            <img src="Images/Menu/Pasta%20menu.jpg" alt="Fresh pasta menu page" loading="lazy" />
+            <figcaption>Fresh Pasta</figcaption>
+          </figure>
+
+          <figure class="menu-pages__slide">
+            <img src="Images/Menu/Special%20pasta%20and%20risotto%20menu%20and%20sides%20menu.jpg" alt="Specials, risotto and sides menu page" loading="lazy" />
+            <figcaption>Specials, Risotto &amp; Sides</figcaption>
+          </figure>
+
+          <figure class="menu-pages__slide">
+            <img src="Images/Menu/pollo-chicken%20menu.jpg" alt="Pollo and chicken menu page" loading="lazy" />
+            <figcaption>Pollo &amp; Chicken</figcaption>
+          </figure>
+
+          <figure class="menu-pages__slide">
+            <img src="Images/Menu/Char%20grilled%20and%20burgers%20menu.jpg" alt="Char-grilled and burgers menu page" loading="lazy" />
+            <figcaption>Char-grilled &amp; Burgers</figcaption>
+          </figure>
+
+          <figure class="menu-pages__slide">
+            <img src="Images/Menu/chicken%20parmo%20and%20seafood%20menu.jpg" alt="Chicken parmo and seafood menu page" loading="lazy" />
+            <figcaption>Parmo &amp; Seafood</figcaption>
+          </figure>
+
+          <figure class="menu-pages__slide">
+            <img src="Images/Menu/breakfast%20and%20lunch%20menu.jpg" alt="Breakfast and lunch menu page" loading="lazy" />
+            <figcaption>Breakfast &amp; Lunch</figcaption>
+          </figure>
+
+          <figure class="menu-pages__slide">
+            <img src="Images/Menu/EarlyBirdMenu.jpg" alt="Early bird menu page" loading="lazy" />
+            <figcaption>Early Bird Special</figcaption>
+          </figure>
+
+        </div>
+        <div class="menu-pages__count" id="mpCounter" aria-live="polite">1 / 9</div>
+      </div>
+
+      <button class="menu-pages__btn menu-pages__btn--prev" id="mpPrev" aria-label="Previous menu page">&#8249;</button>
+      <button class="menu-pages__btn menu-pages__btn--next" id="mpNext" aria-label="Next menu page">&#8250;</button>
+    </div>
+
+    <div class="menu-pages__dots" id="mpDots"></div>
   </section>
 
   <!-- ============ MENU CARDS ============ -->
@@ -405,6 +478,6 @@
     </div>
   </footer>
 
-  <script src="js/script.js?v=4"></script>
+  <script src="js/script.js?v=5"></script>
 </body>
 </html>
