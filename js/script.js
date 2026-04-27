@@ -143,6 +143,50 @@
     startAuto();
   }
 
+  /* -------- Tripadvisor reviews carousel -------- */
+  const track2   = document.getElementById('reviewsTrack2');
+  const prevBtn2 = document.getElementById('revPrev2');
+  const nextBtn2 = document.getElementById('revNext2');
+  const dotsWrap2 = document.getElementById('revDots2');
+
+  if (track2 && prevBtn2 && nextBtn2 && dotsWrap2) {
+    const reviews2 = Array.from(track2.querySelectorAll('.review'));
+    let current2 = 0;
+    let auto2;
+
+    reviews2.forEach((_, i) => {
+      const b = document.createElement('button');
+      b.setAttribute('aria-label', `Go to review ${i + 1}`);
+      b.addEventListener('click', () => { goTo2(i); resetAuto2(); });
+      dotsWrap2.appendChild(b);
+    });
+    const dots2 = Array.from(dotsWrap2.children);
+
+    const goTo2 = (index) => {
+      current2 = (index + reviews2.length) % reviews2.length;
+      track2.style.transform = `translateX(${-current2 * 100}%)`;
+      dots2.forEach((d, i) => d.classList.toggle('active', i === current2));
+    };
+
+    nextBtn2.addEventListener('click', () => { goTo2(current2 + 1); resetAuto2(); });
+    prevBtn2.addEventListener('click', () => { goTo2(current2 - 1); resetAuto2(); });
+
+    const startAuto2 = () => { auto2 = setInterval(() => goTo2(current2 + 1), 6200); };
+    const resetAuto2 = () => { clearInterval(auto2); startAuto2(); };
+
+    let revTouchX2 = null;
+    track2.addEventListener('touchstart', e => { revTouchX2 = e.touches[0].clientX; }, { passive: true });
+    track2.addEventListener('touchend', e => {
+      if (revTouchX2 === null) return;
+      const dx = e.changedTouches[0].clientX - revTouchX2;
+      if (Math.abs(dx) > 40) { dx < 0 ? goTo2(current2 + 1) : goTo2(current2 - 1); resetAuto2(); }
+      revTouchX2 = null;
+    }, { passive: true });
+
+    goTo2(0);
+    startAuto2();
+  }
+
   /* -------- Hero image slider -------- */
   const heroSlides = Array.from(document.querySelectorAll('.hero__slide'));
   const heroDotWrap = document.getElementById('heroIndicators');
