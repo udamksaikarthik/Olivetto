@@ -67,7 +67,7 @@ h4 { font-size: 1.15rem; font-family: var(--sans); font-weight: 600; letter-spac
 h5 { font-size: .85rem; font-family: var(--sans); font-weight: 600; text-transform: uppercase; letter-spacing: .14em; }
 
 p { margin: 0 0 1em; }
-em { font-style: italic; color: var(--terracotta); }
+em { font-style: italic; color: #c89b3c; }
 
 .container {
   max-width: var(--container);
@@ -81,7 +81,7 @@ em { font-style: italic; color: var(--terracotta); }
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: .22em;
-  color: var(--terracotta);
+  color: #c89b3c;
   margin: 0 0 1.25rem;
 }
 
@@ -282,6 +282,31 @@ em { font-style: italic; color: var(--terracotta); }
   mix-blend-mode: multiply;
 }
 
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background:
+        url("https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1600&q=80") center/cover no-repeat;
+    transform: scale(1.05);
+    animation: hero-zoom 18s ease-in-out infinite alternate;
+}
+
+@keyframes hero-zoom {
+    from { transform: scale(1.02); }
+    to   { transform: scale(1.12); }
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+        radial-gradient(ellipse at 30% 50%, rgba(122, 46, 30, 0.55) 0%, transparent 60%),
+        linear-gradient(180deg, rgba(31, 24, 20, 0.55) 0%, rgba(31, 24, 20, 0.75) 100%);
+}
+
+
 .hero__content {
   position: relative;
   z-index: 2;
@@ -294,6 +319,7 @@ em { font-style: italic; color: var(--terracotta); }
   font-family: var(--serif);
   font-weight: 500;
   margin: 0 0 1.5rem;
+  color: #f7f1e6;
 }
 .hero__lede {
   font-size: clamp(1.05rem, 1.6vw, 1.25rem);
@@ -301,6 +327,7 @@ em { font-style: italic; color: var(--terracotta); }
   max-width: 580px;
   margin: 0 auto 2.5rem;
   line-height: 1.65;
+  color: #f7f1e6
 }
 .hero__cta {
   display: flex;
@@ -314,6 +341,16 @@ em { font-style: italic; color: var(--terracotta); }
   gap: 18px;
   justify-content: center;
   flex-wrap: wrap;
+}
+.btn-ghost {
+    background: transparent;
+    color: var(--cream);
+    border: 1.5px solid rgba(251, 246, 238, 0.4);
+}
+.btn-ghost:hover {
+    background: var(--cream);
+    color: var(--ink);
+    border-color: var(--cream);
 }
 .badge {
   background: rgba(255, 255, 255, 0.7);
