@@ -539,9 +539,7 @@
         card.className = 'menu__item-card';
         card.innerHTML =
           '<div class="menu__item-inner">' +
-            '<div class="menu__item-img">' +
-              '<img src="' + cat.img + '" alt="' + item.name + '" loading="lazy">' +
-            '</div>' +
+            '<div class="menu__item-img" style="background-image:url(\'' + cat.img + '\')" role="img" aria-label="' + item.name + '"></div>' +
             '<div class="menu__item-body">' +
               '<h3 class="menu__item-name">' + item.name + '</h3>' +
               '<p class="menu__item-desc">' + item.desc + '</p>' +
