@@ -636,11 +636,126 @@ em { font-style: italic; color: #c89b3c; }
   background: var(--cream-2);
   position: relative;
 }
-.menu__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
+/* ---- Category tabs ---- */
+.menu__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 40px;
 }
+.menu__tab {
+  font-family: var(--sans);
+  font-size: .82rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  border-radius: 100px;
+  border: 1.5px solid var(--line);
+  background: transparent;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  transition: background .22s var(--ease), border-color .22s var(--ease), color .22s var(--ease);
+}
+.menu__tab:hover { border-color: var(--terracotta); color: var(--terracotta); }
+.menu__tab.active { background: var(--terracotta); border-color: var(--terracotta); color: #fff; }
+
+/* ---- Slider layout ---- */
+.menu__slider-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.menu__viewport {
+  flex: 1;
+  overflow: hidden;
+}
+.menu__track {
+  display: flex;
+  flex-wrap: nowrap;
+  transition: transform .45s var(--ease);
+}
+
+/* ---- Item cards ---- */
+.menu__item-card {
+  flex: 0 0 33.333%;
+  padding: 0 8px;
+  box-sizing: border-box;
+}
+.menu__item-inner {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform .3s var(--ease), box-shadow .3s var(--ease);
+}
+.menu__item-inner:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px -14px rgba(31,42,36,.16);
+}
+.menu__item-img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+.menu__item-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .45s var(--ease);
+}
+.menu__item-inner:hover .menu__item-img img { transform: scale(1.06); }
+.menu__item-body { padding: 18px 20px 22px; }
+.menu__item-name {
+  font-family: var(--serif);
+  font-size: 1.18rem;
+  font-weight: 600;
+  margin: 0 0 6px;
+  color: var(--ink);
+  line-height: 1.25;
+}
+.menu__item-desc {
+  font-size: .875rem;
+  color: var(--ink-soft);
+  margin: 0;
+  line-height: 1.5;
+  opacity: .82;
+}
+
+/* ---- Arrows ---- */
+.menu__arrow {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--cream);
+  border: 1.5px solid var(--line);
+  color: var(--ink);
+  font-size: 1.65rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .22s var(--ease), border-color .22s var(--ease), color .22s var(--ease), opacity .22s;
+}
+.menu__arrow:hover { background: var(--terracotta); border-color: var(--terracotta); color: #fff; }
+.menu__arrow:disabled { opacity: .3; pointer-events: none; }
+
+/* ---- Dots ---- */
+.menu__slider-footer { margin-top: 24px; text-align: center; }
+.menu__slider-dots { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.menu__slider-dots button {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+  border: none;
+  padding: 0;
+  transition: background .22s var(--ease), transform .22s var(--ease);
+}
+.menu__slider-dots button.active { background: var(--terracotta); transform: scale(1.5); }
 .card {
   background: var(--cream);
   border: 1px solid var(--line);
@@ -793,7 +908,10 @@ em { font-style: italic; color: #c89b3c; }
 .why__copy p { color: var(--ink-soft); font-size: 1.05rem; }
 .why__award {
   margin-top: 2rem;
-  display: inline-block;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 .why__award img {
   max-width: 140px;
@@ -1326,4 +1444,15 @@ em { font-style: italic; color: #c89b3c; }
 
   .gallery__caption { font-size: 1rem; padding: 60px 20px 20px; }
   .gallery__arrow { width: 38px; height: 38px; font-size: 1.1rem; }
+}
+
+/* Menu slider responsive */
+@media (max-width: 959px) {
+  .menu__item-card { flex: 0 0 50%; }
+  .menu__arrow { width: 38px; height: 38px; font-size: 1.4rem; }
+}
+@media (max-width: 639px) {
+  .menu__item-card { flex: 0 0 100%; }
+  .menu__arrow { width: 34px; height: 34px; font-size: 1.25rem; }
+  .menu__item-body { padding: 14px 16px 18px; }
 }
